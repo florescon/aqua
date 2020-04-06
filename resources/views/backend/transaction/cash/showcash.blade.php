@@ -215,7 +215,7 @@
             @foreach($cash->incomes as $income)
             <tr class="table-primary">
               <td>#{{ $income->id }}</td>
-              <td>{{ $income->name }}</td>
+              <td>{{ $income->name }} @if($income->deleted_at)<span class="badge badge-pill badge-danger"> <em>Eliminado</em></span>@endif</td>
               <td>
                 @if(isset($income->comment))
                   {{ $income->comment }}
@@ -251,7 +251,7 @@
             @foreach($cash->expenses as $expense)
             <tr class="table-primary">
               <td>#{{ $expense->id }}</td>
-              <td>{{ $expense->name }}</td>
+              <td>{{ $expense->name }} @if($expense->deleted_at)<span class="badge badge-pill badge-danger"> <em>Eliminado</em></span>@endif </td>
               <td>
                 @if(isset($income->comment))
                   {{ $income->comment }}

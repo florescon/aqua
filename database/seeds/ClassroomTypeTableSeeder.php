@@ -19,7 +19,7 @@ class ClassroomTypeTableSeeder extends Seeder
         $this->disableForeignKeys();
 
         if (app()->environment() !== 'production') {
-            factory(ClassroomType::class, 1000)->create();
+            factory(ClassroomType::class, 100)->create();
         }
 
         $this->enableForeignKeys();

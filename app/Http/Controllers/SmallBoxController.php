@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\SmallBox;
+use App\Income;
 use App\Http\Requests\SmallboxRequest;
 use App\Http\Requests\SmallboxUpdateRequest;
 use DataTables;
@@ -43,12 +44,20 @@ class SmallBoxController extends Controller
     public function store(SmallboxRequest $request)
     {
     
-    	  $smallbox = new SmallBox();
+	    $smallbox = new SmallBox();
         $smallbox->name = $request->name;
         $smallbox->amount = $request->amount;
         $smallbox->comment = $request->comment;
         $smallbox->type = $request->type;
-        $smallbox->save();
+
+        if($smallbox->save()){
+            if($request->checkbox==1 && $smallbox->type==2){
+                $income = new Income();
+                $income->name = 'Ingreso desde la caja chica #'.$smallbox->id;
+                $income->price = $request->amount;
+                $income->save();
+            }
+        }
 
    
     return redirect()->route('admin.transaction.small.index')

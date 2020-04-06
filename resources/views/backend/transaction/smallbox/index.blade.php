@@ -154,12 +154,21 @@
           </div>
 
           <div class="btn-group btn-group-toggle" data-toggle="buttons">
-            <label class="btn btn-secondary active">
+            <label class="btn btn-outline-primary active">
               <input type="radio" name="type" id="type" value="1" autocomplete="off" checked> @lang('labels.backend.access.smallbox.table.income')
             </label>
-            <label class="btn btn-secondary">
+            <label class="btn btn-outline-danger">
               <input type="radio" name="type" id="type" value="2" autocomplete="off"> @lang('labels.backend.access.smallbox.table.expenditure')
             </label>
+          </div>
+          <br>
+          <br>
+          <div class="checkbox d-flex align-items-center">
+              <label class="switch switch-label switch-pill switch-primary switch-sm">
+                <input class="switch-input" type="checkbox" value="1" name="checkbox">
+                <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+              </label>
+              <label>&nbsp; Enviar directo a caja <em>(solo aplica en gasto)</em></label>
           </div>
 
       </div>

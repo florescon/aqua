@@ -17,7 +17,7 @@ class IncomeTableSeeder extends Seeder
         $this->disableForeignKeys();
 
         if (app()->environment() !== 'production') {
-            factory(Income::class, 1000)->create();
+            factory(Income::class, 100)->create();
         }
 
         $this->enableForeignKeys();

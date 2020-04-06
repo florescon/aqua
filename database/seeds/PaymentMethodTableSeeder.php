@@ -18,7 +18,7 @@ class PaymentMethodTableSeeder extends Seeder
         $this->disableForeignKeys();
 
         if (app()->environment() !== 'production') {
-            factory(PaymentMethod::class, 6500)->create();
+            factory(PaymentMethod::class, 100)->create();
         }
 
         $this->enableForeignKeys();

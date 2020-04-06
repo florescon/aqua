@@ -18,7 +18,7 @@ class TagTableSeeder extends Seeder
         $this->disableForeignKeys();
 
         if (app()->environment() !== 'production') {
-            factory(Tag::class, 6500)->create();
+            factory(Tag::class, 100)->create();
         }
 
         $this->enableForeignKeys();

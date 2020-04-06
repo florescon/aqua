@@ -19,7 +19,7 @@ class SectionTableSeeder extends Seeder
         $this->disableForeignKeys();
 
         if (app()->environment() !== 'production') {
-            factory(Section::class, 6500)->create();
+            factory(Section::class, 100)->create();
         }
 
         $this->enableForeignKeys();

@@ -17,7 +17,7 @@ class ProductTableSeeder extends Seeder
         $this->disableForeignKeys();
 
         if (app()->environment() !== 'production') {
-            factory(Product::class, 6500)->create();
+            factory(Product::class, 100)->create();
         }
 
         $this->enableForeignKeys();

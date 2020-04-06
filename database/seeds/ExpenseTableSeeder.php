@@ -17,7 +17,7 @@ class ExpenseTableSeeder extends Seeder
         $this->disableForeignKeys();
 
         if (app()->environment() !== 'production') {
-            factory(Expense::class, 1000)->create();
+            factory(Expense::class, 100)->create();
         }
 
         $this->enableForeignKeys();

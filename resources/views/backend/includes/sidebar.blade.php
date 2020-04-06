@@ -366,6 +366,10 @@
                         </a>
                     </li>
                     @endcan
+                    <li class="nav-item">
+                        <a class="">&nbsp;
+                        </a>
+                    </li>
                </ul>
             </li>
             @endcanany
@@ -383,6 +387,16 @@
                 </a>
 
                 <ul class="nav-dropdown-items">
+
+                    @can('metodos de pago')
+                    <li class="nav-item">
+                        <a class="nav-link {{
+                            active_class(Active::checkUriPattern('admin/setting/method*'))
+                        }}" href="{{ route('admin.setting.method.index') }}">
+                            @lang('menus.backend.sidebar.payments_methods')
+                        </a>
+                    </li>
+                    @endcan
 
                     @can('configuraciones generales')
                     <li class="nav-item">
@@ -411,15 +425,11 @@
                         </a>
                     </li>
                     @endcan
-                    @can('metodos de pago')
+
                     <li class="nav-item">
-                        <a class="nav-link {{
-                            active_class(Active::checkUriPattern('admin/setting/method*'))
-                        }}" href="{{ route('admin.setting.method.index') }}">
-                            @lang('menus.backend.sidebar.payments_methods')
+                        <a class="">&nbsp;
                         </a>
                     </li>
-                    @endcan
 
                </ul>
             </li>

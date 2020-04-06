@@ -14,7 +14,7 @@ class SaleTableSeeder extends Seeder
     {
 
         if (app()->environment() !== 'production') {
-            factory(Sale::class, 5000)->create();
+            factory(Sale::class, 50)->create();
         }
 
     }

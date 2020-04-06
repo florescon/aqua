@@ -17,7 +17,7 @@ class NoteTableSeeder extends Seeder
         $this->disableForeignKeys();
 
         if (app()->environment() !== 'production') {
-            factory(Note::class, 3000)->create();
+            factory(Note::class, 30)->create();
         }
 
         $this->enableForeignKeys();
