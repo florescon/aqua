@@ -87,7 +87,7 @@ class ExpenseController extends Controller
         // $pdf = PDF::loadView('mypdf', $data);
         $subscription = Expense::findOrFail($id);
 
-        $customPaper = array(0,0,667.00,283.80);
+        $customPaper = array(5,-20,667.00,293.80);
         $pdf = PDF::loadView('expense', compact('subscription'))->setPaper($customPaper, 'landscape');
 
         return $pdf->stream('#'.$subscription->id.'-inscripcion.pdf');

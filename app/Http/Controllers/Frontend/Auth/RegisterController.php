@@ -50,7 +50,7 @@ class RegisterController extends Controller
     {
         abort_unless(config('access.registration'), 404);
 
-        return view('frontend.auth.register2')
+        return view('frontend.auth.register')
             ->withSocialiteLinks((new SocialiteHelper)->getSocialLinks());
     }
 

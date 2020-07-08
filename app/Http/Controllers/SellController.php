@@ -131,7 +131,7 @@ class SellController extends Controller
         // $pdf = PDF::loadView('mypdf', $data);
         $sale = Sale::findOrFail($id);
 
-        $customPaper = array(0,0,667.00,283.80);
+        $customPaper = array(5,-20,667.00,293.80);
         $pdf = PDF::loadView('sale', compact('data', 'sale'))->setPaper($customPaper, 'landscape');
 
         return $pdf->stream($sale->id.'-venta.pdf');

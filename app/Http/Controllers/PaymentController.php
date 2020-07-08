@@ -52,7 +52,7 @@ class PaymentController extends Controller
         // $pdf = PDF::loadView('mypdf', $data);
         $payment = Payment::findOrFail($id);
 
-        $customPaper = array(0,0,667.00,283.80);
+        $customPaper = array(5,-20,667.00,293.80);
         $pdf = PDF::loadView('payment', compact('payment'))->setPaper($customPaper, 'landscape');
 
         return $pdf->stream($payment->user->name.'-mensualidad.pdf');

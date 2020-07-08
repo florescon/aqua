@@ -109,18 +109,6 @@ class ProductController extends Controller
         }
     }
 
-
-    // public function generatePDF()
-    // {
-    //     $data = ['title' => 'Welcome to '];
-    //     // $pdf = PDF::loadView('mypdf', $data);
-
-    //     $customPaper = array(0,0,667.00,283.80);
-    //     $pdf = PDF::loadView('mypdfthermal', compact('data'))->setPaper($customPaper, 'landscape');
-
-    //     return $pdf->stream('itsolutionstuff.pdf');
-    // }
-
     public function destroy($id)
     {
 

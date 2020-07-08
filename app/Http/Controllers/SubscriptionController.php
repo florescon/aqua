@@ -139,7 +139,7 @@ class SubscriptionController extends Controller
         // $pdf = PDF::loadView('mypdf', $data);
         $subscription = Subscription::findOrFail($id);
 
-        $customPaper = array(0,0,667.00,283.80);
+        $customPaper = array(5,-20,667.00,293.80);
         $pdf = PDF::loadView('inscription', compact('subscription'))->setPaper($customPaper, 'landscape');
 
         return $pdf->stream($subscription->user->name.'-inscripcion.pdf');
@@ -153,7 +153,7 @@ class SubscriptionController extends Controller
 
         $payments = Payment::findOrFail($request->payment);
 
-        $customPaper = array(0,0,667.00,283.80);
+        $customPaper = array(5,-20,667.00,293.80);
         $pdf = PDF::loadView('inscriptionpayment', compact('subscription', 'payments'))->setPaper($customPaper, 'landscape');
 
         return $pdf->stream($subscription->user->name.'-inscripcion-mensualidad.pdf');

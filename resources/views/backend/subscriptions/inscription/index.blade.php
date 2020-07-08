@@ -157,8 +157,9 @@
                     <i class="fa fa-calendar-alt"></i>
                   </span>
                 </div>
-                <input style="position: relative; z-index: 100000;" type="text" class="datepicker form-control" name="start_index" readonly required>
+                <input style="position: relative; z-index: 100000;" type="text" class="datepicker form-control" name="start_index" id="start_index" readonly required>
               </div>
+
             </div>
           </div>
 
