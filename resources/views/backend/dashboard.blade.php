@@ -3,6 +3,13 @@
 @section('title', app_name() . ' | ' . __('strings.backend.dashboard.title'))
 
 @section('content')
+
+    <div class="container">
+        @foreach($list as $lis)
+          <div class="icon"><i class="pic fab {{ $lis }} fa-lg"></i></div>
+        @endforeach
+    </div>
+
     <div class="row">
         <div class="col">
             <div class="card">
@@ -16,7 +23,7 @@
             
             <div class="row">
               <div class="col-sm-6 col-lg-3">
-                <div class="card">
+                <div class="card bg-primary text-white p-3">
                   <div class="card-body">
                     <div class="text-value">{{ $users }}</div>
                     <div>Usuarios clientes...</div>
@@ -29,7 +36,7 @@
               </div>
               <!-- /.col-->
               <div class="col-sm-6 col-lg-3">
-                <div class="card">
+                <div class="card bg-primary text-white p-3">
                   <div class="card-body">
                     <div class="text-value">
                         {{ $payments }}
@@ -44,7 +51,7 @@
               </div>
               <!-- /.col-->
               <div class="col-sm-6 col-lg-3">
-                <div class="card">
+                <div class="card bg-primary text-white p-3">
                   <div class="card-body">
                     <div class="text-value">{{ $sales }}</div>
                     <div>Ventas...</div>
@@ -57,7 +64,7 @@
               </div>
               <!-- /.col-->
               <div class="col-sm-6 col-lg-3">
-                <div class="card">
+                <div class="card bg-primary text-white p-3">
                   <div class="card-body">
                     <div class="text-value">{{ $products }}</div>
                     <div>Productos...</div>

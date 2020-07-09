@@ -25,6 +25,11 @@ class DashboardController extends Controller
         $sales = Sale::all()->count();
         $products = Product::all()->count();
 
-        return view('backend.dashboard', compact('users', 'payments', 'sales', 'products'));
+        $list = array('fa-evernote', 'fa-firefox-browser', 'fa-digital-ocean', 'fa-whatsapp', 'fa-wolf-pack-battalion', 'fa-youtube', 'fa-tumblr', 'fa-gratipay', 'fa-earlybirds', 'fa-free-code-camp', 'fa-canadian-maple-leaf', 'fa-linux', 'fa-apple', 'fa-apple');
+        shuffle($list);
+
+
+
+        return view('backend.dashboard', compact('users', 'payments', 'sales', 'products', 'list'));
     }
 }
