@@ -8,6 +8,7 @@
 
 @section('content')
     {{ html()->form('POST', route('admin.customer.store'))->class('form-horizontal')->open() }}
+        {{ csrf_field() }}
         <div class="card">
             <div class="card-body">
                 <div class="row">

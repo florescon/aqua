@@ -138,8 +138,7 @@
                     <div class="col-md-12">
                         <div class="copyright-text">
                             <p>&copy; {{ now()->year }}
-                                <a href="#">Aquática azul</a>. @lang('navs.frontend.copyright') @lang('navs.frontend.created_with') <i class="fa fa-heart text-danger"></i> @lang('navs.frontend.by')
-                                <a href="#">cctec.mx</a>
+                                <a href="#">Aquática azul</a>. @lang('navs.frontend.copyright') @lang('navs.frontend.created_with') <i class="fa fa-heart text-danger"></i>
                             </p>
                         </div>
 

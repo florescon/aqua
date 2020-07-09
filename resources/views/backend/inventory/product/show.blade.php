@@ -70,7 +70,7 @@
 	              <td class="left">@lang('labels.backend.access.product.table.amount_changed')</td>
 	              <td class="right">{{ $pro->quantity }}</td>
 	              <td class="right">De {{ $pro->old_quantity }} a {{ $pro->old_quantity+$pro->quantity }}</td>
-	              <td class="right">{{ $pro->generated_by->name }}</td>
+	              <td class="right">{{ optional($pro->generated_by)->name }}</td>
 	            </tr>
 	            @endforeach
             </tbody>
