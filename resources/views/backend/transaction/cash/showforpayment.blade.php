@@ -5,16 +5,37 @@
 @section('content')
 
   <div class="col-lg-12">
+
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="alert-heading"><i class="fas fa-exclamation-triangle"></i> ¡Atención!</h4>
+            Seleccionó el método de pago <u>{!! $paymentmeth->name !!}</u><br/>
+    </div>
+
+
     <div class="card">
       <div class="card-header">
           <a href="{{ route('admin.transaction.cash.indexall') }}" class="btn btn-brand btn-spotify mb-1">
             <span>Ver todos los cortes</span>
           </a>
+          <a href="{{ route('admin.transaction.cash.show', $cash->id) }}" class="btn btn-brand btn-reddit mb-1">
+            <span>Todos los movimientos</span>
+          </a>
+
           @foreach($paymentmethods as $payment)
+
+            @if($payment->id == $paymentyt)
+              @continue
+            @endif
+
             <a href="{{ route('admin.transaction.cash.showforpayment', [$cash->id, $payment->id]) }}" class="btn btn-brand btn-facebook mb-1">
               <span>{!! $payment->name !!}</span>
             </a>
           @endforeach
+
+
       </div>
     </div>
   </div>
@@ -37,18 +58,6 @@
         <a class="nav-link" data-toggle="tab" href="#payments" role="tab" aria-controls="payments">
           <i class="nav-icon fa fa-clipboard-list"></i> @lang('labels.backend.access.cash_out.table.monthly_payments')
           @if($payments->count())<span class="badge badge-pill badge-success">{{ $payments->count() }}</span>@endif
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#incomes" role="tab" aria-controls="incomes">
-          <i class="nav-icon fa fa-hand-holding-usd"></i> @lang('labels.backend.access.cash_out.table.incomes')
-          @if($cash->incomes->count())<span class="badge badge-pill badge-success">{{ $cash->incomes->count() }}</span>@endif
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#expenses" role="tab" aria-controls="expenses">
-          <i class="nav-icon fa fa-hand-holding"></i> @lang('labels.backend.access.cash_out.table.expenses')
-          @if($cash->expenses->count())<span class="badge badge-pill badge-danger">{{ $cash->expenses->count() }}</span>@endif
         </a>
       </li>
       <li class="nav-item">
@@ -104,6 +113,7 @@
             </tr>
             @php($totalsale+=$total)
             @endforeach
+
             <tr>
               <td></td>
               <td></td>
@@ -198,80 +208,6 @@
           </tbody>
         </table>        
       </div>
-      <div class="tab-pane" id="incomes" role="tabpanel">
-        <table class="table table-responsive-sm">
-          <thead class="thead-dark">
-            <tr>
-              <th>Folio</th>
-              <th>@lang('labels.backend.access.cash_out.table.name')</th>
-              <th>Comentario</th>
-              <th>Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            @php($totalincomes=0)
-            @foreach($cash->incomes as $income)
-            <tr class="table-primary">
-              <td>#{{ $income->id }}</td>
-              <td>{{ $income->name }} @if($income->deleted_at)<span class="badge badge-pill badge-danger"> <em>Eliminado</em></span>@endif</td>
-              <td>
-                @if(isset($income->comment))
-                  {{ $income->comment }}
-                @else
-                  <span class="badge badge-pill badge-secondary"> <em>No definido</em></span>
-                @endif
-              </td>
-              <td>${{ $income->price }}</td>
-            </tr>
-            @php($totalincomes+=$income->price)
-            @endforeach
-            <tr>
-              <td></td>
-              <td></td>
-              <th align="right">Total</th>
-              <th><span class="badge badge-pill badge-success">${{ $totalincomes }}</span></th>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="tab-pane" id="expenses" role="tabpanel">
-        <table class="table table-responsive-sm">
-          <thead class="thead-dark">
-            <tr>
-              <th>Folio</th>
-              <th>@lang('labels.backend.access.cash_out.table.name')</th>
-              <th>Comentario</th>
-              <th>Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            @php($totalexpense=0)
-            @foreach($cash->expenses as $expense)
-            <tr class="table-primary">
-              <td>#{{ $expense->id }}</td>
-              <td>{{ $expense->name }} @if($expense->deleted_at)<span class="badge badge-pill badge-danger"> <em>Eliminado</em></span>@endif</td>
-              <td>
-                @if(isset($expense->comment))
-                  {{ $expense->comment }}
-                @else
-                  <span class="badge badge-pill badge-secondary"> <em>No definido</em></span>
-                @endif
-              </td>
-              <td>${{ $expense->price }}</td>
-            </tr>
-            @php($totalexpense+=$expense->price)
-            @endforeach
-
-            <tr>
-              <td></td>
-              <td></td>
-              <th align="right">Total</th>
-              <th><span class="badge badge-pill badge-danger">${{ $totalexpense }}</span></th>
-            </tr>
-
-          </tbody>
-        </table>
-      </div>
       <div class="tab-pane" id="cashout" role="tabpanel">
         <table class="table table-responsive-sm">
           <thead class="thead-dark">
@@ -281,10 +217,6 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>@lang('labels.backend.access.cash_out.table.initial_quantity')</td>
-              <td><span class="badge badge-pill badge-warning">${{ $cash->initial}}</span></td>
-            </tr>
             <tr>
               <td>@lang('labels.backend.access.cash_out.table.sales')</td>
               <td><span class="badge badge-pill badge-success">${{ $totalsale }}</span></td>
@@ -298,17 +230,9 @@
               <td><span class="badge badge-pill badge-success">${{ $totalpayment }}</span></td>
             </tr>
             <tr>
-              <td>@lang('labels.backend.access.cash_out.table.incomes')</td>
-              <td><span class="badge badge-pill badge-success">${{ $totalincomes }}</span></td>
-            </tr>
-            <tr>
-              <td>@lang('labels.backend.access.cash_out.table.expenses')</td>
-              <td><span class="badge badge-pill badge-danger">${{ $totalexpense }}</span></td>
-            </tr>
-            <tr>
               <th style="text-align: right;">Total</th>
               <th>
-              @php($final=$cash->initial+$totalsale+$totalinscription+$totalpayment+$totalincomes-$totalexpense)
+              @php($final=$totalsale+$totalinscription+$totalpayment)
               <input class="form-control col-sm-3" id="final" name="final" type="number" min="1" placeholder="Cantidad" value="{{ $final }}" readonly>
 
             </tr>

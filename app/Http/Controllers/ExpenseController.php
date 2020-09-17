@@ -41,6 +41,7 @@ class ExpenseController extends Controller
                           if(Auth::user()->hasRole('administrator')){
                           $btn = $btn.'
                             <a href="'.route('admin.transaction.expense.destroy', $row->id).'" class="btn btn-delete btn-outline-danger" title="'.$row->name.'" data-trans-button-confirm="'. __('buttons.general.crud.delete').'"  data-trans-button-cancel="'.__('buttons.general.cancel').'" data-trans-text="'.__('strings.backend.general.revert_this').'" data-trans-title="'.__('strings.backend.general.are_you_sure_delete').'" data-trans-success="'.__('strings.backend.general.success').'" data-trans-deleted="'.__('strings.backend.general.deleted').'" data-trans-wrong="'.__('strings.backend.general.wrong').'"><i class="fas fa-eraser"></i></a>
+                            </div>
                            ';
                           }
                           return $btn;

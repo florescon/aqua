@@ -10,6 +10,7 @@ use App\Expense;
 use App\Subscription;
 use App\Payment;
 use App\SmallBox;
+use App\PaymentMethod;
 use Carbon;
 use PDF;
 
@@ -28,6 +29,24 @@ class CashOutController extends Controller
       return view('backend.transaction.cash.index', compact('latest', 'sales', 'incomes', 'expenses', 'inscriptions', 'payments'));
     }
 
+    public function indexcard()
+    {
+
+      $latest = CashOut::latest()->first();
+
+      $sales = Sale::whereNull('box')->whereHas('payment',function( $query ){
+        $query->where('id','2');
+        })->with('user', 'products', 'payment')->get();
+      $inscriptions = Subscription::whereNull('box')->whereHas('payment_method',function( $query ){
+        $query->where('id','2');
+        })->with('user', 'payment_method')->get();
+      $payments = Payment::whereNull('box')->whereHas('payment_method',function( $query ){
+        $query->where('id','2');
+        })->with('user', 'payment_method')->get();
+      return view('backend.transaction.cash.indexcard', compact('latest', 'sales', 'inscriptions', 'payments'));
+
+    }
+
 
     public function indexall()
     {
@@ -41,7 +60,29 @@ class CashOutController extends Controller
       $sales = $cash->sales()->with('user', 'payment')->orderBy('updated_at', 'desc')->get();
       $inscriptions = $cash->inscriptions()->with('user', 'payment_method')->orderBy('updated_at', 'desc')->get();
       $payments = $cash->payments()->with('user', 'payment_method')->orderBy('updated_at', 'desc')->get();
-      return view('backend.transaction.cash.show', compact('cash', 'sales', 'inscriptions', 'payments'));
+
+      $paymentmethods = PaymentMethod::all();
+      return view('backend.transaction.cash.show', compact('cash', 'sales', 'inscriptions', 'payments', 'paymentmethods'));
+    }
+
+
+    public function showforpayment($cash, $paymentyt)
+    {
+      $cash = CashOut::findOrFail($cash);
+
+      $paymentmethods = PaymentMethod::all();
+      $paymentmeth = PaymentMethod::where('id', $paymentyt)->first();
+
+      $sales = $cash->sales()->whereHas('payment',function( $query ) use($paymentyt){
+        $query->where('id', $paymentyt);
+        })->with('user', 'payment')->orderBy('updated_at', 'desc')->get();
+      $inscriptions = $cash->inscriptions()->whereHas('payment_method',function( $query ) use($paymentyt){
+        $query->where('id', $paymentyt);
+        })->with('user', 'payment_method')->orderBy('updated_at', 'desc')->get();
+      $payments = $cash->payments()->whereHas('payment_method',function( $query ) use($paymentyt){
+        $query->where('id', $paymentyt);
+        })->with('user', 'payment_method')->orderBy('updated_at', 'desc')->get();
+      return view('backend.transaction.cash.showforpayment', compact('cash', 'sales', 'inscriptions', 'payments', 'paymentmethods', 'paymentyt', 'paymentmeth'));
     }
 
     public function showcash($id)

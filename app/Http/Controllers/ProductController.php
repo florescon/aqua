@@ -73,8 +73,9 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        $product = Product::findOrFail($id);
-        return view('backend.inventory.product.show', compact('product'));
+        $product = Product::with('detail')->findOrFail($id);
+        $details = ProductDetail::where('product_id', $id)->paginate(10);
+        return view('backend.inventory.product.show', compact('product', 'details'));
     }
 
     public function update(ProductUpdateRequest $request)

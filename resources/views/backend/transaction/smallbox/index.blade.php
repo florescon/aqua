@@ -164,7 +164,7 @@
           <br>
           <br>
           <div class="checkbox d-flex align-items-center">
-              <label class="switch switch-label switch-pill switch-primary switch-sm">
+              <label class="switch switch-label switch-pill switch-danger switch-sm">
                 <input class="switch-input" type="checkbox" value="1" name="checkbox">
                 <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
               </label>

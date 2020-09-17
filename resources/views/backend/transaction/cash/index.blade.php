@@ -8,6 +8,16 @@
 
 @section('content')
 
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header">
+            <a href="{{ route('admin.transaction.cash.indexcard') }}" class="btn btn-brand btn-facebook mb-1">
+              <span>Tarjeta</span>
+            </a>
+      </div>
+    </div>
+  </div>
+
   <div class="col-md-12">
     <ul class="nav nav-tabs" role="tablist">
       <li class="nav-item">

@@ -276,6 +276,7 @@ return [
                 'add_quantity' => 'Agregar/Restar (+/-)',
                 'management' => 'Administración de producto',
                 'view' => 'Ver producto',
+                'movements' => 'Movimientos',
                 
                 'table' => [
                     'name' => 'Nombre',
@@ -289,6 +290,7 @@ return [
                     'created' => 'Creado',
                     'total' => 'Todos los productos',
                     'generated_by' => 'Generado por',
+                    'date' => 'Fecha',
                     'movement' => 'Movimiento',
                     'amount_changed' => 'Se modificó cantidad',
                 ],

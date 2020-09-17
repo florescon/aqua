@@ -29,10 +29,13 @@ class IncomeController extends Controller
                         return $dat->updated_at ? with(new Carbon($dat->updated_at))->format('d-m-Y H:i:s') : '';
                     })
                     ->addColumn('action', function($row){
-                           $btn = '<a href="#" data-toggle="modal" data-placement="top" title="'.__('buttons.general.crud.edit').'" class="btn btn-primary" data-id="'.$row->id.'" data-myname="'.$row->name.'" data-myprice="'. $row->price .'" data-mycomment="'. $row->comment .'" data-target="#editIncome"><i class="fas fa-edit"></i></a> ';
+                           $btn = '<div class="btn-group" role="group" aria-label="'. __('labels.backend.access.users.user_actions') .'">
+
+                           <a href="#" data-toggle="modal" data-placement="top" title="'.__('buttons.general.crud.edit').'" class="btn btn-primary" data-id="'.$row->id.'" data-myname="'.$row->name.'" data-myprice="'. $row->price .'" data-mycomment="'. $row->comment .'" data-target="#editIncome"><i class="fas fa-edit"></i></a> ';
                            if(Auth::user()->hasRole('administrator')){
                            $btn = $btn.'
                             <a href="'.route('admin.transaction.income.destroy', $row->id).'" class="btn btn-delete btn-outline-danger" title="'.$row->name.'" data-trans-button-confirm="'. __('buttons.general.crud.delete').'"  data-trans-button-cancel="'.__('buttons.general.cancel').'" data-trans-text="'.__('strings.backend.general.revert_this').'" data-trans-title="'.__('strings.backend.general.are_you_sure_delete').'" data-trans-success="'.__('strings.backend.general.success').'" data-trans-deleted="'.__('strings.backend.general.deleted').'" data-trans-wrong="'.__('strings.backend.general.wrong').'"><i class="fas fa-eraser"></i></a>
+                            </div>
                             ';
                             }
                             return $btn;

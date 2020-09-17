@@ -30,6 +30,9 @@ Route::group([
 
     Route::group(['namespace' => 'Cash', 'middleware' => 'permission:corte de caja'], function () {
 		Route::get('cash', [CashOutController::class, 'index'])->name('cash.index');
+
+		Route::get('cash/indexcard', [CashOutController::class, 'indexcard'])->name('cash.indexcard');
+
 		Route::get('cashall', [CashOutController::class, 'indexall'])->name('cash.indexall');
 		Route::post('cash/inital', [CashOutController::class, 'storeInitial'])->name('cash.initial');
 	    Route::post('cash', [CashOutController::class, 'store'])->name('cash.store');
@@ -40,8 +43,13 @@ Route::group([
 	    Route::patch('cash/{id}', [CashOutController::class, 'updateFinal'])->name('cash.updatefinal');
 		
 		Route::get('cashout/{cash}', [CashOutController::class, 'show'])->name('cash.show');
+
+		Route::get('cashout/{cash}/payment/{payment}', [CashOutController::class, 'showforpayment'])->name('cash.showforpayment');
+
 		Route::get('cashout/cash/{cash}', [CashOutController::class, 'showcash'])->name('cash.showcash');
 		Route::get('cashout/card/{cash}', [CashOutController::class, 'showcard'])->name('cash.showcard');
+
+
 
         Route::get('cashout/{id}/generate-pdf', [CashOutController::class, 'generatePDF'])->name('cash.generate');
 

@@ -53,7 +53,7 @@
 
         </div>
 
-        @if($product->detail->count())
+        @if($details->count())
         <div class="table-responsive-sm">
           <table class="table table-striped">
           <thead>
@@ -62,20 +62,37 @@
               <th class="right">@lang('labels.backend.access.product.table.quantity')</th>
               <th class="right">@lang('labels.backend.access.product.table.movement')</th>
               <th class="right">@lang('labels.backend.access.product.table.generated_by')</th>
+              <th class="right">@lang('labels.backend.access.product.table.date')</th>
             </tr>
           </thead>
             <tbody>
-            	@foreach($product->detail as $pro)
+            	@foreach($details as $pro)
 	            <tr>
 	              <td class="left">@lang('labels.backend.access.product.table.amount_changed')</td>
 	              <td class="right">{{ $pro->quantity }}</td>
 	              <td class="right">De {{ $pro->old_quantity }} a {{ $pro->old_quantity+$pro->quantity }}</td>
 	              <td class="right">{{ optional($pro->generated_by)->name }}</td>
+                <td class="right">{{ $pro->created_at }}</td>
 	            </tr>
 	            @endforeach
             </tbody>
           </table>
         </div>
+
+        <div class="row">
+            <div class="col-7">
+                <div class="float-left">
+                    {!! $details->total() !!} {{ trans_choice('labels.backend.access.product.movements', $details->total()) }} 
+                </div>
+            </div><!--col-->
+
+            <div class="col-5">
+                <div class="float-right">
+                    {{ $details->links() }}
+                </div>
+            </div><!--col-->
+        </div><!--row-->
+
         @endif
 
         <div class="row">
