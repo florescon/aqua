@@ -186,7 +186,7 @@
                     </li>
                     @endcan
 
-                    {{-- @can('mensualidades')
+                    @can('mensualidades')
                     <li class="nav-item">
                         <a class="nav-link {{
                             active_class(Active::checkUriPattern('admin/subscription/payment*'))
@@ -194,7 +194,7 @@
                             @lang('menus.backend.sidebar.payments_monthly')
                         </a>
                     </li>
-                    @endcan --}}
+                    @endcan
                </ul>
             </li>
             @endcanany

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Product;
 use App\ProductDetail;
+use App\DataTables\ProductDataTable;
 use App\Http\Requests\ProductRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use App\Http\Requests\ServiceRequest;
@@ -17,41 +18,12 @@ use Carbon;
 class ProductController extends Controller
 {
 
-    public function index(Request $request)
+    public function index(ProductDataTable $dataTable)
     {
         // $products = Product::orderBy('updated_at', 'desc')->where('type', 1)->paginate();
         // return view('backend.inventory.product.index', compact('products'));
-
-        if ($request->ajax()) {
-            // select('id', 'name', 'address', 'created_at', 'updated_at')
-            $data = Product::query()->where('type', 1);
-            return Datatables::of($data)
-                    ->addIndexColumn()
-                    // ->editColumn('created_at', function ($dat) {
-                    //     return $dat->created_at ? with(new Carbon($dat->created_at))->format('d-m-Y H:i:s') : '';
-                    // })
-                    ->addColumn('action', function($row){
-                           $btn = '
-                           <div class="btn-group" role="group" aria-label="'. __('labels.backend.access.users.user_actions') .'">
-                            <a href="'. route('admin.inventory.product.show', $row->id) .'" data-toggle="tooltip" data-placement="top" title="'. __('buttons.general.crud.view') .'" class="btn btn-info"><i class="fas fa-eye"></i></a>
-
-                           <a href="#" data-toggle="modal" data-placement="top" title="'. __('buttons.general.crud.edit') .'" class="btn btn-primary" data-id="'. $row->id .'" data-myname="'. $row->name .'" data-myquantity="'. $row->quantity .'" data-mycode="'. $row->code .'" data-myprice="'. $row->price .'" data-target="#editProduct"><i class="fas fa-edit"></i></a>
-                            ';
-                            $btn = $btn.'
-                                <a href="#" data-toggle="modal" data-target="#stockModal" data-placement="top" data-product_id="'. $row->id .'" data-name="'. $row->name .'" data-quantity="'. $row->quantity .'" title="'. __('buttons.general.crud.edit') .'" class="btn btn-outline-info"><i class="fas fa-minus"></i>  '.__('labels.backend.access.product.table.quantity').' <i class="fas fa-plus"></i></a>
-                            ';
-                            $btn = $btn.'
-                                <a href="'.route('admin.inventory.product.destroy', $row->id).'" class="btn btn-delete btn-outline-danger" title="'.$row->name.'" data-trans-button-confirm="'. __('buttons.general.crud.delete').'"  data-trans-button-cancel="'.__('buttons.general.cancel').'" data-trans-text="'.__('strings.backend.general.revert_this').'" data-trans-title="'.__('strings.backend.general.are_you_sure_delete').'" data-trans-success="'.__('strings.backend.general.success').'" data-trans-deleted="'.__('strings.backend.general.deleted').'" data-trans-wrong="'.__('strings.backend.general.wrong').'"><i class="fas fa-eraser"></i>
-                                </a>
-                            </div>    
-                            ';
-                            return $btn;
-                    })
-                    ->rawColumns(['action'])
-                    ->make(true);
-        }
       
-        return view('backend.inventory.product.index');
+        return $dataTable->render('backend.inventory.product.index');
 
     }
 

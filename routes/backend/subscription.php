@@ -34,7 +34,7 @@ Route::group([
 		Route::get('payment', [PaymentController::class, 'index'])->name('payment.index');
 	    Route::get('payment/create', [PaymentController::class, 'create'])->name('payment.create');
 	    Route::post('payment', [PaymentController::class, 'store'])->name('payment.store');
-	    Route::delete('payment/{id}', [PaymentController::class, 'destroy'])->name('payment.destroy');
+	    Route::get('payment/{id}', [PaymentController::class, 'destroy'])->name('payment.destroy');
 
         Route::get('payment/{id}/generate-pdf', [PaymentController::class, 'generatePDF'])->name('payment.generate');
 

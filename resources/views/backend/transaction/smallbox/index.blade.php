@@ -3,8 +3,6 @@
 @section('title', app_name() . ' | ' . __('labels.backend.access.smallbox.management'))
 
 @push('after-styles')
-    <link  href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
-    <link href="//cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css" rel="stylesheet">
 @endpush
 
 @section('content')
@@ -247,10 +245,35 @@
 
     $(function () {
     
-      var table = $('.data-table').DataTable({
+      let table = $('.data-table').DataTable({
+        dom: 'lBfrtip',
+        buttons: [
+          {
+              extend: 'excel',
+              text: '<i class="fa fa-download"></i>&nbsp;Excel &nbsp; <i class="fas fa-file-excel"></i>',
+              messageTop: 'Excel',
+          },
+          {
+              extend: 'csv',
+              text: '<i class="fa fa-download"></i>&nbsp;CSV &nbsp; <i class="fas fa-file-csv"></i>',
+              messageTop: 'CSV',
+          },
+          {
+              extend: 'print',
+              text: 'Imprimir&nbsp;<i class="fa fa-print"></i>',
+              messageTop: 'Imprimir',
+          },
+          {
+              extend: 'reset',
+              text: 'Recargar&nbsp;<i class="fa fa-undo"></i>',
+
+          },
+        ],
+        // select: true,
         responsive: true,
         processing: true,
         serverSide: true,
+        autoWidth: false,
         ajax: "{{ route('admin.transaction.small.index') }}",
         language: {
           "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
@@ -305,8 +328,5 @@
 
 </script>
 
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-  <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-  <script src="//cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
 
 @endpush

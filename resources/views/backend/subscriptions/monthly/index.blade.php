@@ -17,7 +17,7 @@
 
             <div class="col-sm-7">
                 <div class="btn-toolbar float-right" role="toolbar" aria-label="@lang('labels.general.toolbar_btn_groups')">
-                    <a href="#" data-toggle="modal" class="btn btn-success ml-1" title="@lang('labels.general.create_new')" data-target="#exampleModal"><i class="fas fa-plus-circle"></i></a>
+                    {{-- <a href="#" data-toggle="modal" class="btn btn-success ml-1" title="@lang('labels.general.create_new')" data-target="#exampleModal"><i class="fas fa-plus-circle"></i></a> --}}
                 </div><!--btn-toolbar-->
 
             </div><!--col-->
@@ -26,7 +26,7 @@
         <div class="row mt-4">
             <div class="col">
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table table-striped data-table">
                         <thead>
                         <tr>
                             <th>@lang('labels.backend.access.payment.table.user')</th>
@@ -39,7 +39,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($subscriptions as $payment)
+                        {{-- @foreach($subscriptions as $payment)
                             <tr>
                                 <td>{{ $payment->user->name }}</td>
                                 <td>${{ $payment->price }}</td>
@@ -60,7 +60,7 @@
                                 </a>
                                 </td>
                             </tr>
-                        @endforeach
+                        @endforeach --}}
                         </tbody>
                     </table>
                 </div>
@@ -69,13 +69,13 @@
         <div class="row">
             <div class="col-7">
                 <div class="float-left">
-                    {!! $subscriptions->total() !!} {{ trans_choice('labels.backend.access.payment.table.total', $subscriptions->total()) }} 
+                    {{-- {!! $subscriptions->total() !!} {{ trans_choice('labels.backend.access.payment.table.total', $subscriptions->total()) }}  --}}
                 </div>
             </div><!--col-->
 
             <div class="col-5">
                 <div class="float-right">
-                    {{ $subscriptions->links() }}
+                    {{-- {{ $subscriptions->links() }} --}}
                 </div>
             </div><!--col-->
         </div><!--row-->
@@ -103,10 +103,10 @@
             <label for="name" class="col-form-label">@lang('labels.backend.access.payment.table.user'):</label>
             <select type="text" name="user" class="form-control select2" id="user" required>
                 <option value="">@lang('labels.general.select_option')</option>
-                @foreach($users as $user)
+                {{-- @foreach($users as $user) --}}
                     {{--<option value="{{$user->all}}" {{ old('user') ? 'selected' : '' }}>{{$user->all()}}</option>--}}
-                    <option value="{{$user->id}}" {{ old('user') ? 'selected' : '' }}>{{$user->name}}</option>
-                @endforeach
+                    {{-- <option value="{{$user->id}}" {{ old('user') ? 'selected' : '' }}>{{$user->name}}</option>
+                @endforeach --}}
             </select>
           </div>
 
@@ -134,6 +134,60 @@
 @endsection
 
 @push('after-scripts')
+<script>
+    
+
+    $(function () {
+      let table = $('.data-table').DataTable({
+        dom: 'lBfrtip',
+        buttons: [
+          {
+              extend: 'excel',
+              text: '<i class="fa fa-download"></i>&nbsp;Excel &nbsp; <i class="fas fa-file-excel"></i>',
+              messageTop: 'Excel',
+          },
+          {
+              extend: 'csv',
+              text: '<i class="fa fa-download"></i>&nbsp;CSV &nbsp; <i class="fas fa-file-csv"></i>',
+              messageTop: 'CSV',
+          },
+          {
+              extend: 'print',
+              text: 'Imprimir&nbsp;<i class="fa fa-print"></i>',
+              messageTop: 'Imprimir',
+          },
+          {
+              extend: 'reset',
+              text: 'Recargar&nbsp;<i class="fa fa-undo"></i>',
+
+          },
+        ],
+        // select: true,
+        responsive: true,
+        processing: true,
+        serverSide: true,
+        autoWidth: false,
+        ajax: "{{ route('admin.subscription.payment.index') }}",
+        language: {
+          "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+        },
+        order: ['4', 'desc'], 
+        columns: [
+            {data: 'user', name: 'user.first_name', orderable: false},
+            {data: 'price', name: 'price'},
+            {data: 'start_date', name: 'start_date'},
+            {data: 'finish_date', name: 'finish_date'},
+            {data: 'updated_at', name: 'updated_at'},
+            {data: 'generated_by', name: 'generated_by.first_name'},
+            {data: 'action', name: 'action', orderable: false, searchable: false},
+        ]
+      });
+    
+    });
+
+
+</script>
+
        <script>
         $(function () {
           $('[data-toggle="popover"]').popover()

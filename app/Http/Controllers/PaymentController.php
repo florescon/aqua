@@ -7,18 +7,22 @@ use App\Payment;
 use App\Models\Auth\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\PaymentRequest;
+use App\DataTables\PaymentDataTable;
 use Carbon;
 use PDF;
 
 class PaymentController extends Controller
 {
 
-    public function index(){
+    public function index(PaymentDataTable $dataTable){
 
-    	$subscriptions = Payment::orderBy('updated_at', 'desc')->paginate(10);
-    	$users = User::all()->where('confirmed', true)->where('active', true);
+    	// $subscriptions = Payment::orderBy('updated_at', 'desc')->paginate(10);
+    	// $users = User::all()->where('confirmed', true)->where('active', true);
 
-    	return view('backend.subscriptions.monthly.index', compact('subscriptions', 'users'));
+    	// return view('backend.subscriptions.monthly.index', compact('subscriptions', 'users'));
+
+      
+        return $dataTable->render('backend.subscriptions.monthly.index');
 
     }
 

@@ -20,6 +20,7 @@ use DataTables;
 use Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\DataTables\UserDataTable;
 
 /**
  * Class UserController.
@@ -59,43 +60,10 @@ class UserController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function indexCustomer(Request $request)
+    public function indexCustomer(UserDataTable $dataTable)
     {
-        // return view('backend.customer.index')
-            // ->withUsers($this->userRepository->getActivePaginatedCustomerSec(25, 'id', 'asc'));
 
-        if ($request->ajax()) {
-            // select('id', 'name', 'address', 'created_at', 'updated_at')
-            $data = User::query()->whereHas('roles', function($q){ $q->where("name", "user"); })->with('customer')->select('users.*')->active();
-            return Datatables::eloquent($data)
-                    ->addIndexColumn()
-                    // ->editColumn('created_at', function ($dat) {
-                    //     return $dat->created_at ? with(new Carbon($dat->created_at))->format('d-m-Y H:i:s') : '';
-                    // })
-                    ->editColumn('updated_at', function ($dat) {
-                        return $dat->updated_at ? with(new Carbon($dat->updated_at))->format('d-m-Y H:i:s') : '';
-                    })
-                    ->addColumn('ins', function (User $user) {
-                            return !empty($user->customer->ins) ? $user->customer->ins : '<span class="badge badge-pill badge-secondary"> <em>No definido</em></span>';
-                    })
-                    ->addColumn('action', function($row){
-                           $btn = '
-                            <div class="btn-group" role="group" aria-label="'.__('labels.backend.access.users.user_actions').'">
-
-                               <a href="'.route('admin.customer.show', $row->id).'" data-toggle="tooltip" data-placement="top" title="'.__('buttons.general.crud.view').'" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                                ';
-                                $btn = $btn.'
-                                <a href="'.route('admin.customer.edit', $row->id).'" data-toggle="tooltip" data-placement="top" title="'.__('buttons.general.crud.edit').'" class="btn btn-primary"><i class="fas fa-edit"></i></a>
-                            </div>
-                            ';
-                            return $btn;
-                    })
-                    ->rawColumns(['ins', 'action'])
-                    ->toJson();
-        }
-      
-        return view('backend.customer.index');
-
+        return $dataTable->render('backend.customer.index');
 
     }
 

@@ -7,10 +7,6 @@
 @endsection
 
 @push('after-styles')
-    <link  href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
-    <link href="//cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.css" rel="stylesheet">   
-
 @endpush
 
 @section('content')
@@ -379,234 +375,255 @@
 
 @push('after-scripts')
     <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script>
 
+    <script>
     $(function () {
-      var table = $('.data-table').DataTable({
+      let table = $('.data-table').DataTable({
+        dom: 'lBfrtip',
+        buttons: [
+          {
+              extend: 'excel',
+              text: '<i class="fa fa-download"></i>&nbsp;Excel &nbsp; <i class="fas fa-file-excel"></i>',
+              messageTop: 'Excel',
+          },
+          {
+              extend: 'csv',
+              text: '<i class="fa fa-download"></i>&nbsp;CSV &nbsp; <i class="fas fa-file-csv"></i>',
+              messageTop: 'CSV',
+          },
+          {
+              extend: 'print',
+              text: 'Imprimir&nbsp;<i class="fa fa-print"></i>',
+              messageTop: 'Imprimir',
+          },
+          {
+              extend: 'reset',
+              text: 'Recargar&nbsp;<i class="fa fa-undo"></i>',
+
+          },
+        ],
+        // select: true,
         responsive: true,
         processing: true,
         serverSide: true,
+        autoWidth: false,
         ajax: "{{ route('admin.subscription.subscription.index') }}",
         language: {
           "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
         },
         order: ['0', 'desc'], 
         columns: [
-            {data: 'id', name: 'id'},
+            {data: 'folio', name: 'id'},
             {data: 'name', name: 'user.first_name'},
             {data: 'finish_date', name: 'finish_date'},
-            {data: 'payment', name: 'payments_one.finish_date'},
+            {data: 'payment', name: 'payment'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
       });
     
     });
 
-        $(document).ready(function() {
-            $('.datepicker').datepicker({
-                language: 'es',
-                dateFormat: 'dd-mm-yy',
-                autoclose: true,
-                todayHighlight: true,
+    $(document).ready(function() {
+        $('.datepicker').datepicker({
+            language: 'es',
+            dateFormat: 'dd-mm-yy',
+            autoclose: true,
+            todayHighlight: true,
 
-            });
         });
+    });
 
-        $.datepicker.regional['es'] = {
-          closeText: 'Cerrar',
-          prevText: '&#x3C;Ant',
-          nextText: 'Sig&#x3E;',
-          currentText: 'Hoy',
-          monthNames: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto',
-            'septiembre', 'octubre', 'noviembre', 'diciembre'
-          ],
-          monthNamesShort: ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
-          dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
-          dayNamesShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
-          dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
-          weekHeader: 'Sm',
-          dateFormat: 'dd/mm/yy',
-          firstDay: 1,
-          isRTL: false,
-          showMonthAfterYear: false,
-          yearSuffix: ''
-        };
+    $.datepicker.regional['es'] = {
+      closeText: 'Cerrar',
+      prevText: '&#x3C;Ant',
+      nextText: 'Sig&#x3E;',
+      currentText: 'Hoy',
+      monthNames: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto',
+        'septiembre', 'octubre', 'noviembre', 'diciembre'
+      ],
+      monthNamesShort: ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
+      dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
+      dayNamesShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
+      dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
+      weekHeader: 'Sm',
+      dateFormat: 'dd/mm/yy',
+      firstDay: 1,
+      isRTL: false,
+      showMonthAfterYear: false,
+      yearSuffix: ''
+    };
 
-        $.datepicker.setDefaults($.datepicker.regional['es']);
-
-
-        $('#paymentModal').on('show.bs.modal', function (event) {
-          var button = $(event.relatedTarget)
-          var user_id = button.data('userid')
-          var sub_id = button.data('subid')
-          var name = button.data('name')
-          var modal = $(this)
-
-          modal.find('.modal-body #user_id').val(user_id)
-          modal.find('.modal-body #sub_id').val(sub_id)
-          modal.find('.modal-title').text('@lang('labels.backend.access.payment.create') - ' + name)
-        });
+    $.datepicker.setDefaults($.datepicker.regional['es']);
 
 
-        $('#editModal').on('show.bs.modal', function (event) {
-          var button = $(event.relatedTarget)
-          var sub_id = button.data('subid')
-          var start_ = button.data('start')
-          var end_ = button.data('end')
-          var name = button.data('name')
-          var price_ = button.data('price')
-          var comment_ = button.data('mycomment')
-          var paymentmethod_ = button.data('paymentmethod') 
-          var ticket_text_ = button.data('texticket')
-          var modal = $(this)
+    $('#paymentModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget)
+      var user_id = button.data('userid')
+      var sub_id = button.data('subid')
+      var name = button.data('name')
+      var modal = $(this)
 
-          modal.find('.modal-body #sub_id').val(sub_id)
-          modal.find('.modal-body #start_date').val(start_)
-          modal.find('.modal-body #end').val(end_)
-          modal.find('.modal-body #price').val(price_)
-          modal.find('.modal-body #comment').val(comment_)
-          modal.find('.modal-body #paymentmethod').val(paymentmethod_)
-          modal.find('.modal-body #ticket_text').val(ticket_text_)
-          modal.find('.modal-title').text('@lang('labels.backend.access.subscription.edit') - ' + name)
-        });
+      modal.find('.modal-body #user_id').val(user_id)
+      modal.find('.modal-body #sub_id').val(sub_id)
+      modal.find('.modal-title').text('@lang('labels.backend.access.payment.create') - ' + name)
+    });
 
-        $(document).ready(function() {
-            $('#tags').select2({
-              ajax: {
-                    url: '{{ route('admin.subscription.tag.select') }}',
-                    data: function (params) {
-                        return {
-                            search: params.term,
-                            page: params.page || 1
-                        };
-                    },
-                    dataType: 'json',
-                    processResults: function (data) {
-                        data.page = data.page || 1;
-                        return {
-                            results: data.items.map(function (item) {
-                                return {
-                                    id: item.id,
-                                    text: item.name
-                                };
-                            }),
-                            pagination: {
-                                more: data.pagination
-                            }
-                        }
-                    },
-                    cache: true,
-                    delay: 250
+
+    $('#editModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget)
+      var sub_id = button.data('subid')
+      var start_ = button.data('start')
+      var end_ = button.data('end')
+      var name = button.data('name')
+      var price_ = button.data('price')
+      var comment_ = button.data('mycomment')
+      var paymentmethod_ = button.data('paymentmethod') 
+      var ticket_text_ = button.data('texticket')
+      var modal = $(this)
+
+      modal.find('.modal-body #sub_id').val(sub_id)
+      modal.find('.modal-body #start_date').val(start_)
+      modal.find('.modal-body #end').val(end_)
+      modal.find('.modal-body #price').val(price_)
+      modal.find('.modal-body #comment').val(comment_)
+      modal.find('.modal-body #paymentmethod').val(paymentmethod_)
+      modal.find('.modal-body #ticket_text').val(ticket_text_)
+      modal.find('.modal-title').text('@lang('labels.backend.access.subscription.edit') - ' + name)
+    });
+
+    $(document).ready(function() {
+        $('#tags').select2({
+          ajax: {
+                url: '{{ route('admin.subscription.tag.select') }}',
+                data: function (params) {
+                    return {
+                        search: params.term,
+                        page: params.page || 1
+                    };
                 },
-                placeholder: '@lang('labels.backend.access.payment.table.tag')',
-                multiple: true,
-                width: 'resolve'
-              });
-        });
-
-        $(document).ready(function() {
-            $('#user').select2({
-              ajax: {
-                    url: '{{ route('admin.user.select') }}',
-                    data: function (params) {
-                        return {
-                            search: params.term,
-                            page: params.page || 1
-                        };
-                    },
-                    dataType: 'json',
-                    processResults: function (data) {
-                        data.page = data.page || 1;
-                        return {
-                            results: data.items.map(function (item) {
-                                return {
-                                    id: item.id,
-                                    text: item.first_name + ' ' + item.last_name
-                                };
-                            }),
-                            pagination: {
-                                more: data.pagination
-                            }
+                dataType: 'json',
+                processResults: function (data) {
+                    data.page = data.page || 1;
+                    return {
+                        results: data.items.map(function (item) {
+                            return {
+                                id: item.id,
+                                text: item.name
+                            };
+                        }),
+                        pagination: {
+                            more: data.pagination
                         }
-                    },
-                    cache: true,
-                    delay: 250
+                    }
                 },
-                placeholder: '@lang('labels.backend.access.users.user')',
-                width: 'resolve'
-              });
-        });
+                cache: true,
+                delay: 250
+            },
+            placeholder: '@lang('labels.backend.access.payment.table.tag')',
+            multiple: true,
+            width: 'resolve'
+          });
+    });
 
-        $(document).ready(function() {
-            $('#payment_method').select2({
-              ajax: {
-                    url: '{{ route('admin.setting.method.select') }}',
-                    data: function (params) {
-                        return {
-                            search: params.term,
-                            page: params.page || 1
-                        };
-                    },
-                    dataType: 'json',
-                    processResults: function (data) {
-                        data.page = data.page || 1;
-                        return {
-                            results: data.items.map(function (item) {
-                                return {
-                                    id: item.id,
-                                    text: item.name
-                                };
-                            }),
-                            pagination: {
-                                more: data.pagination
-                            }
+    $(document).ready(function() {
+        $('#user').select2({
+          ajax: {
+                url: '{{ route('admin.user.select') }}',
+                data: function (params) {
+                    return {
+                        search: params.term,
+                        page: params.page || 1
+                    };
+                },
+                dataType: 'json',
+                processResults: function (data) {
+                    data.page = data.page || 1;
+                    return {
+                        results: data.items.map(function (item) {
+                            return {
+                                id: item.id,
+                                text: item.first_name + ' ' + item.last_name
+                            };
+                        }),
+                        pagination: {
+                            more: data.pagination
                         }
-                    },
-                    cache: true,
-                    delay: 250
+                    }
                 },
-                placeholder: '@lang('labels.backend.access.sell.payment_method')',
-                width: 'resolve'
-              });
-        });
+                cache: true,
+                delay: 250
+            },
+            placeholder: '@lang('labels.backend.access.users.user')',
+            width: 'resolve'
+          });
+    });
 
-
-        $(document).ready(function() {
-            $('#payment_method_').select2({
-              ajax: {
-                    url: '{{ route('admin.setting.method.select') }}',
-                    data: function (params) {
-                        return {
-                            search: params.term,
-                            page: params.page || 1
-                        };
-                    },
-                    dataType: 'json',
-                    processResults: function (data) {
-                        data.page = data.page || 1;
-                        return {
-                            results: data.items.map(function (item) {
-                                return {
-                                    id: item.id,
-                                    text: item.name
-                                };
-                            }),
-                            pagination: {
-                                more: data.pagination
-                            }
+    $(document).ready(function() {
+        $('#payment_method').select2({
+          ajax: {
+                url: '{{ route('admin.setting.method.select') }}',
+                data: function (params) {
+                    return {
+                        search: params.term,
+                        page: params.page || 1
+                    };
+                },
+                dataType: 'json',
+                processResults: function (data) {
+                    data.page = data.page || 1;
+                    return {
+                        results: data.items.map(function (item) {
+                            return {
+                                id: item.id,
+                                text: item.name
+                            };
+                        }),
+                        pagination: {
+                            more: data.pagination
                         }
-                    },
-                    cache: true,
-                    delay: 250
+                    }
                 },
-                placeholder: '@lang('labels.backend.access.sell.payment_method')',
-                width: 'resolve'
-              });
-        });
-       </script>
+                cache: true,
+                delay: 250
+            },
+            placeholder: '@lang('labels.backend.access.sell.payment_method')',
+            width: 'resolve'
+          });
+    });
 
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-  <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-  <script src="//cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+
+    $(document).ready(function() {
+        $('#payment_method_').select2({
+          ajax: {
+                url: '{{ route('admin.setting.method.select') }}',
+                data: function (params) {
+                    return {
+                        search: params.term,
+                        page: params.page || 1
+                    };
+                },
+                dataType: 'json',
+                processResults: function (data) {
+                    data.page = data.page || 1;
+                    return {
+                        results: data.items.map(function (item) {
+                            return {
+                                id: item.id,
+                                text: item.name
+                            };
+                        }),
+                        pagination: {
+                            more: data.pagination
+                        }
+                    }
+                },
+                cache: true,
+                delay: 250
+            },
+            placeholder: '@lang('labels.backend.access.sell.payment_method')',
+            width: 'resolve'
+          });
+    });
+  </script>
 
 @endpush

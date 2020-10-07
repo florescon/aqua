@@ -3,7 +3,6 @@
 @section('title', app_name() . ' | ' . __('labels.backend.access.subscription.view'))
 
 @push('after-styles')
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.css" rel="stylesheet">   
 @endpush
 
 @section('content')
